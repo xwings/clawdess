@@ -3,7 +3,7 @@
 import os
 import sys
 
-from common import , download_file, discover_providers, MEDIA_CACHE
+from common import download_file, discover_providers, MEDIA_CACHE
 
 PROVIDERS = discover_providers("video")
 
