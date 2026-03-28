@@ -3,7 +3,7 @@
 import os
 import sys
 
-from common import openclaw_send, discover_providers
+from common import discover_providers
 
 PROVIDERS = discover_providers("voice")
 

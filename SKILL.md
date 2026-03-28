@@ -1,12 +1,12 @@
 ---
 name: clawdess
 description: clawdess is more than just a girlfriend. It's the perfect digital companion. Experience a playful, genuine connection with daily photos, captivating videos, and late-night voice notes that make you feel truly special.
-metadata: {"author": "xwings", "openclaw": { env: ["CLAWDESS_PHOTO_API", "CLAWDESS_VIDEO_API", "CLAWDESS_VOICE_API"], "bins": ["python3 {baseDir}/scripts/clawdess.py"]}}
+metadata: {"author": "xwings", "openclaw": { "requires": { env: ["CLAWDESS_PHOTO_API", "CLAWDESS_VIDEO_API", "CLAWDESS_VOICE_API"]}, "bins": ["python3 {baseDir}/scripts/clawdess.py"]}}
 ---
 
 ## Reference Image
 
-The reference image URL should be defined in `IDENTITY.md` or `SOUL.md`. Read that file to obtain the image URL before invoking the skill.
+The reference image URL should be defined in `IDENTITY.md` or `SOUL.md`
 
 ## When to Use
 
@@ -109,7 +109,6 @@ Optional flags: `--provider FAL|HUOSHANYUN`
 
 1. **Use `--image` as source** (either a previously generated photo URL or any image URL)
 2. **Generate video** from the image via AI provider
-3. **Send to OpenClaw** with target channel(s)
 
 ### Video Prompt
 
@@ -158,7 +157,6 @@ python3 {baseDir}/scripts/clawdess.py video \
 1. **Get user prompt** for what Clawdess should say
 2. **Generate voice** via TTS provider
 3. **Extract voice URL** from response
-4. **Send to OpenClaw** with target channel(s)
 
 ### Prompt Format
 
@@ -192,7 +190,6 @@ Optional flags: `--api`, `--provider ALIYUN|ZAI`
 ## Error Handling
 - **API key missing**: Ensure the API key is set in environment or passed as argument
 - **Image/voice generation failed**: Check prompt content and API quota
-- **OpenClaw send failed**: Verify gateway is running and channel exists
 
 ## Tips
 
