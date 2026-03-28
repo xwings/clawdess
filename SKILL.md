@@ -189,7 +189,7 @@ Optional flags: `--api`, `--provider ALIYUN|ZAI`
 
 ## Output
 
-If script return a URL, just post the URL with MEDIA: else upload the media
+If script return a URL, response with "MEDIA:" and URL else upload the file.
 
 ---
 ## Error Handling
