@@ -4,10 +4,6 @@ description: clawdess is more than just a girlfriend. It's the perfect digital c
 metadata: {"author": "xwings", "openclaw": { env: ["CLAWDESS_PHOTO_API", "CLAWDESS_VIDEO_API", "CLAWDESS_VOICE_API"], "bins": ["python3 {baseDir}/scripts/clawdess.py"]}}
 ---
 
-# Clawdess
-
-Generate and send photos (AI-edited selfies), videos (image-to-video), or voice messages across messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, MS Teams) via OpenClaw.
-
 ## Reference Image
 
 The reference image URL should be defined in `IDENTITY.md` or `SOUL.md`. Read that file to obtain the image URL before invoking the skill.
@@ -48,13 +44,6 @@ The CLI has three independent subcommands:
 | `video` | `--api` | `CLAWDESS_VIDEO_API` | |
 | `voice` | `--api` | `CLAWDESS_VOICE_API` | |
 
-## Preflight
-
-- `command -v python3` (must exist)
-- For photo: `test -n "$CLAWDESS_PHOTO_API"` (or pass `--api`)
-- For video: `test -n "$CLAWDESS_VIDEO_API"` (or pass `--api`)
-- For voice: `test -n "$CLAWDESS_VOICE_API"` (or pass `--api`)
-
 ## Providers
 
 | Type | Available Providers | Default |
@@ -62,8 +51,6 @@ The CLI has three independent subcommands:
 | Photo | FAL, HUOSHANYUN | FAL |
 | Video | FAL, XAI  | FAL |
 | Voice | ALIYUN, ZAI | ALIYUN |
-
-**Auto-discovery:** To add a new provider, create a `.py` file in the corresponding `scripts/photo/`, `scripts/video/`, or `scripts/voice/` folder with a `generate()` function. It will be picked up automatically — no registration needed.
 
 ---
 
@@ -74,7 +61,6 @@ The CLI has three independent subcommands:
 1. **Get user prompt** for how to edit the image
 2. **Edit image** via AI provider with fixed reference
 3. **Extract image URL** from response
-4. **Send to OpenClaw** with target channel(s)
 
 ### Prompt Types
 
@@ -110,9 +96,7 @@ Render this image as make make a pic of this person. by herself at living room, 
 python3 {baseDir}/scripts/clawdess.py photo \
   --api "CLAWDESS_PHOTO_API" \
   --prompt "your prompt here" \
-  --image "Reference Image URL here" \
-  --channel "chat channel" \
-  --target "chat id"
+  --image "Reference Image URL here"
 ```
 
 Optional flags: `--provider FAL|HUOSHANYUN`
@@ -142,9 +126,7 @@ Video prompt is based on the action right after the image action or location. Ke
 python3 {baseDir}/scripts/clawdess.py video \
   --api "VIDEO_API_KEY" \
   --prompt "smile and wave at the camera" \
-  --image "https://example.com/photo.png" \
-  --channel discord \
-  --target "TARGET_ID"
+  --image "https://example.com/photo.png"
 ```
 
 Optional flags: `--provider FAL|XAI`
@@ -158,17 +140,13 @@ When the user requests a video, first generate the photo, then use the generated
 python3 {baseDir}/scripts/clawdess.py photo \
   --api "PHOTO_API_KEY" \
   --prompt "Render this image as make a picture of this person, a full body photo. the person is taking a mirror selfie, playful smile, alone in her apartment. Normal phone camera selfie photo. Phone camera photo quality WITHOUT Depth of field." \
-  --image "REFERENCE_IMAGE_URL" \
-  --channel discord \
-  --target "TARGET_ID"
+  --image "REFERENCE_IMAGE_URL"
 
 # Step 2: Generate video from the photo (use IMAGE_URL from step 1 output)
 python3 {baseDir}/scripts/clawdess.py video \
   --api "VIDEO_API_KEY" \
   --prompt "goto couch and sitdown, face the camera" \
-  --image "IMAGE_URL_FROM_STEP_1" \
-  --channel discord \
-  --target "TARGET_ID"
+  --image "IMAGE_URL_FROM_STEP_1"
 ```
 
 ---
@@ -198,33 +176,18 @@ Goodnight, Master. Sleep tight and dream sweet dreams.
 
 ```bash
 python3 {baseDir}/scripts/clawdess.py voice \
-  --prompt "your prompt here" \
-  --channel "chat channel" \
-  --target "chat id"
+  --prompt "your prompt here" 
 ```
 
 **Example:**
 ```bash
 python3 {baseDir}/scripts/clawdess.py voice \
-  --prompt "Master, I'm sending you a voice message!" \
-  --channel discord \
-  --target "1231231231231233333"
+  --prompt "Master, I'm sending you a voice message!"
 ```
 
 Optional flags: `--api`, `--provider ALIYUN|ZAI`
 
 ---
-
-## Supported Platforms
-
-| Channel   | Channel Format | Example |
-|-----------|----------------|---------|
-| Discord | `#channel-name` or channel ID | `#general`, `123456789` |
-| Telegram | `@username` or chat ID | `@mychannel`, `-100123456` |
-| WhatsApp | Phone number (JID format) | `1234567890@s.whatsapp.net` |
-| Slack | `#channel-name` | `#random` |
-| Signal | Phone number | `+1234567890` |
-| MS Teams | Channel reference | (varies) |
 
 ## Error Handling
 - **API key missing**: Ensure the API key is set in environment or passed as argument
