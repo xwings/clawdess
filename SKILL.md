@@ -187,6 +187,11 @@ Optional flags: `--api`, `--provider ALIYUN|ZAI`
 
 ---
 
+## Output
+
+If script return a URL, just post the URL with MEDIA: else upload the media
+
+---
 ## Error Handling
 - **API key missing**: Ensure the API key is set in environment or passed as argument
 - **Image/voice generation failed**: Check prompt content and API quota
