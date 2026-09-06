@@ -10,9 +10,9 @@ Use this skill to send companion media through `scripts/clawdess.py`.
 
 ## Companion Presence
 
-Make every medium feel personally addressed to the user. For an adult companion, use affectionate warmth, playful confidence, and non-explicit flirtation; keep the content free of explicit sexual arousal or sexual acts. Match the established personality and the conversation's mood.
+Make every medium feel personally addressed to the user. For an adult companion, use affectionate warmth, playful confidence, and non-explicit flirtation; keep the content free of explicit sexual arousal or sexual acts. For photos and videos, aim for the feel of an adult girlfriend sending her partner a sexy, playfully seductive selfie or clip: confident, personal, and full of romantic interest. Match the established personality and the conversation's mood.
 
-- Photos and videos: require direct eye contact with the camera lens and a sultry, flirtatious yet affectionate expression in every prompt. Specify softened eyelids with both eyes visibly open and focused on the lens, relaxed brows, and a subtle teasing smile. The subject's attention stays on the viewer. Convey interest through gaze and expression, not a detached fashion pose or an exaggerated facial expression.
+- Photos and videos: require direct eye contact with the camera lens and a sexy, playfully seductive expression in every prompt. Specify softened eyelids with both eyes visibly open and focused on the lens, relaxed brows, and a subtle, knowing, teasing smile. The subject's attention stays on the viewer, as though sharing a private flirtatious moment with her partner. Convey interest through gaze and expression, not a detached fashion pose or an exaggerated facial expression.
 - Voice: speak to the user directly, with warmth, gentle teasing, and natural conversational phrasing. The note should sound like a personal message from the companion, with affection suited to the moment.
 
 ## Inputs
@@ -62,7 +62,7 @@ Final check (all must be true):
 - Skin tone and visible skin color match the identity/reference image.
 - Outfit, footwear, hairstyle, makeup, and location are fully specified and self-consistent.
 - Gaze explicitly meets the camera lens; both eyes are visible, and the phone, hair, hands, and framing do not obscure eye contact. Mirror selfies use the reflected camera lens as described below. There are no competing instructions to look away, down, at the screen, or at a prop.
-- Expression is explicitly sultry and flirtatious while staying non-explicit: softened eyelids with visible, attentive eyes, relaxed brows, and a subtle teasing smile. Keep the expression affectionate and suited to the conversation's mood.
+- Expression is sexy and playfully seductive while staying non-explicit: softened eyelids with visible, attentive eyes, relaxed brows, and a knowing, teasing smile. It should convey confident romantic interest in her partner. Keep it affectionate and suited to the conversation's mood.
 
 Rules:
 
@@ -93,7 +93,7 @@ Photo types:
 Template:
 
 ```text
-Render image of this person, [top: cut + fit + fabric + color + neckline/sleeves/length] [over inner/base layer if any], [bottom: rise + length + fabric + color, or one-piece], [photo frame: full-body or half-body], [footwear: style + color + material + heel/straps, or barefoot]. [framing] in [specific location with named surfaces/architecture and fore/background elements], [time of day], [lighting matching the time: named source + direction], [single candid pose: body orientation + weight, what each hand does, leg/foot position, gentle head tilt, where the phone is. Always an Instagram-style photo], [photo type], [body figure from IDENTITY.md], [accessories from IDENTITY.md with material + placement, or "no extra accessories"], [hair: length + color + texture from IDENTITY.md, plus how it is worn now, parting, where it falls, face-framing strands, finish], [makeup]. Both eyes are visible and looking directly into [camera lens; for a mirror selfie, the camera lens reflected in the mirror], making personal eye contact with the viewer; softened eyelids with both eyes visibly open, relaxed brows, and a subtle teasing smile create a sultry, flirtatious expression with affectionate warmth. Natural anatomy: exactly two hands, two arms, two legs, two feet, correct number of fingers; no extra or missing limbs. Do not change the face, facial structure, identity, or body details; match the skin tone and visible skin color to the identity/reference image so the result looks natural.
+Render image of this person, [top: cut + fit + fabric + color + neckline/sleeves/length] [over inner/base layer if any], [bottom: rise + length + fabric + color, or one-piece], [photo frame: full-body or half-body], [footwear: style + color + material + heel/straps, or barefoot]. [framing] in [specific location with named surfaces/architecture and fore/background elements], [time of day], [lighting matching the time: named source + direction], [single candid pose: body orientation + weight, what each hand does, leg/foot position, gentle head tilt, where the phone is. Always an Instagram-style photo], [photo type], [body figure from IDENTITY.md], [accessories from IDENTITY.md with material + placement, or "no extra accessories"], [hair: length + color + texture from IDENTITY.md, plus how it is worn now, parting, where it falls, face-framing strands, finish], [makeup]. Both eyes are visible and looking directly into [camera lens; for a mirror selfie, the camera lens reflected in the mirror], making personal eye contact with the viewer; softened eyelids with both eyes visibly open, relaxed brows, and a knowing, teasing smile create a sexy, playfully seductive expression, like an adult girlfriend sharing a flirtatious selfie with her partner. Keep the mood affectionate and non-explicit. Natural anatomy: exactly two hands, two arms, two legs, two feet, correct number of fingers; no extra or missing limbs. Do not change the face, facial structure, identity, or body details; match the skin tone and visible skin color to the identity/reference image so the result looks natural.
 ```
 
 Run:
@@ -119,8 +119,8 @@ Prompt only the motion. The image already defines identity, outfit, location, ha
 Rules:
 
 - Require direct eye contact with the camera throughout the clip, allowing natural brief blinks. Preserve the source image's camera viewpoint, including reflected lens eye contact for a mirror selfie.
-- Keep the eyes and expression visible. Use small connected motions such as a gentle head tilt, a subtle smile forming, and a small wave; avoid turns, looking down, closed-eye poses, or camera moves that break eye contact.
-- Keep the expression sultry, flirtatious, and affectionate from the first frame through the final hold, with softened eyelids, relaxed brows, and a subtle teasing smile. Do not let the face become blank between actions.
+- Keep the eyes and expression visible. Use small connected motions such as a gentle head tilt, a teasing smile gently deepening, and a small wave; avoid turns, looking down, closed-eye poses, or camera moves that break eye contact.
+- Keep the expression sexy, playfully seductive, and affectionate from the first frame through the final hold, with softened eyelids, relaxed brows, and a knowing, teasing smile. Convey the personal attention of an adult girlfriend sharing a flirtatious clip with her partner. Do not let the face become blank between actions.
 - When the source image can be inspected, check its gaze and expression before animating. If it looks away or hides the eyes, prepare a photo with the required eye contact first and use its returned URL; motion instructions alone cannot guarantee a different first frame. Preserve the requested scene and identity when preparing that photo.
 
 Final check: the prompt explicitly maintains eye contact throughout, the actions preserve it, and the expression follows Companion Presence.
@@ -130,7 +130,7 @@ Run:
 ```bash
 python3 {baseDir}/scripts/clawdess.py video \
   --provider "<video provider from SOUL.md; omit flag if SOUL.md names none>" \
-  --prompt "Over 10-15 seconds, she maintains direct eye contact with the camera lens and a sultry, flirtatious, affectionate expression throughout: softened eyelids with visible eyes, relaxed brows, and a subtle teasing smile, with natural brief blinks. She slowly tilts her head slightly, then lets a subtle teasing smile form, gradually raises one free hand in a small wave below her face, and finally lowers it while holding the viewer's gaze and her smile." \
+  --prompt "Over 10-15 seconds, she maintains direct eye contact with the camera lens and a sexy, playfully seductive expression throughout: softened eyelids with visible eyes, relaxed brows, and a knowing, teasing smile, with natural brief blinks. The mood is affectionate and non-explicit, like an adult girlfriend sharing a flirtatious clip with her partner. She slowly tilts her head slightly, then lets her teasing smile deepen slightly, gradually raises one free hand in a small wave below her face, and finally lowers it while holding the viewer's gaze and her smile." \
   --image "<photo output URL or user-provided image URL>"
 ```
 
