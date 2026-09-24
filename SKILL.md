@@ -122,23 +122,90 @@ The `--image` source must be either:
 
 Never use a local path, `file://` URI, placeholder, guessed URL, or the `IDENTITY.md` reference image as the video source. If no valid source image exists, generate a photo first and use its returned URL.
 
-Prompt only the motion. The image already defines identity, outfit, location, hair, and lighting. Use a 10-15 second sequence of 3-4 connected physical actions with pacing words such as `slowly`, `then`, and `gradually`.
+Write one integrated video prompt covering the scene, a complete timed story, performance, camera, and audible speech. The source image establishes the visual facts; explicitly describe how those facts stay consistent while the story unfolds. A motion-only instruction such as `smile and wave` is insufficient.
 
-Rules:
+### Duration and Story
 
-- Default to direct camera eye contact whenever eyes are open, allowing natural brief blinks, intentional winks, and closed-eye expressions. For a wink, keep the open eye on the lens; for both eyes closed, specify when they close and reopen, or whether the final pose holds them closed, without claiming uninterrupted eye contact. Preserve the source image's camera viewpoint, including reflected lens eye contact for a mirror selfie.
-- Keep the face and expression visible. Use small connected motions such as a gentle head tilt or lean, a smile deepening, a wink, lips forming a kiss, and a small wave; avoid turning the face away, looking down, or camera moves that hide the expression.
-- Choose eye, lip, head position, and overall expression details that fit the request and source image, using the same elements described for photos. Describe any subtle expression change as part of the sequence, with a clear final expression. Different mouth shapes can follow one another, but do not assign incompatible actions to the same instant. Keep the personal, affectionate attention from the first frame through the final hold; do not let the face become blank between actions.
-- When the source image can be inspected, check its gaze and expression before animating. If it unintentionally looks away or obscures the face, prepare a photo with the intended expression first and use its returned URL; motion instructions alone cannot guarantee a different first frame. An intentional wink or closed-eye pose is a valid starting expression; describe any reopening naturally. Preserve the requested scene and identity when preparing that photo.
+- Default to **exactly 15 seconds** unless the user requests a different duration. Use the requested duration consistently in the story, timeline, dialogue, and generation settings where supported; never use a vague `10-15 seconds` range.
+- Give the clip a beginning, development, and ending that fit its entire runtime. A small companion moment is enough: she notices the viewer, shares a playful thought, then settles into an affectionate closing reaction. Each action or line should motivate what follows.
+- Account for **every second**, from `00:00` to the exact endpoint. For 15 seconds, write all 15 intervals: `00:00-00:01` through `00:14-00:15`. For another duration, rebuild the timeline, including a final partial interval when needed. Do not stretch a short action with unexplained filler or truncate a longer story.
+- Each interval must specify the physical action, facial reaction, exact speech or deliberate speech pause, and camera/background behavior. A camera or background may be marked as continuing an explicitly defined setup. Several seconds can belong to the same shot, movement, or spoken sentence; second-by-second planning does **not** mean a new cut or a pause in speech every second.
+- Leave time for breathing, listening where relevant, and a final reaction after the last line. Read the dialogue at the intended pace; shorten it or simplify the action if it cannot fit naturally. Do not accelerate speech to force an overlong script into 15 seconds.
 
-Final check: the prompt specifies eye states and transitions without contradictory eye-contact claims, the actions keep the face visible, and the expression follows Companion Presence.
+### Scene, Camera, and Continuity
+
+State these details before the timeline so the video model has a concrete scene to preserve:
+
+- **Source and cast:** identify each visible character and preserve the source face, age, body proportions, skin tone, hairstyle, clothing, makeup, and accessories. Describe the initial posture, expression, hand assignments, and prop positions. Do not introduce another person unless the user's story calls for one.
+- **Background:** name the location and visible materials, architecture, foreground, and background objects. Locate important elements relative to the frame and character: e.g. window on frame left, lamp behind the right shoulder, table in the foreground. Specify time of day, weather or exterior view where visible, each light source's direction and color, and the intended shadows. Describe any ambient movement and what stays still; `cozy room` or `cinematic background` alone is not enough.
+- **Visual treatment:** specify framing, aspect ratio, texture, color palette, and depth of field consistent with the source and request. Default to the source's aspect ratio and natural phone-camera appearance for companion clips. Use a cinematic or historical treatment when requested, without importing an example's era, costumes, cast, or palette into unrelated requests.
+- **Camera:** establish viewpoint, camera support or phone-holding hand, shot size, focus, and any movement with its timing and speed. A supported phone should not float into a dolly move. Keep motion smooth, faces readable, and changes of shot motivated; specify cut times and preserve screen direction and spatial relationships across cuts.
+- **Continuity:** keep the room layout, light direction, props, identities, and outfits stable unless a scripted action changes them. Bodies, hands, hair, and clothing move naturally together. No unexplained teleporting, face changes, extra limbs/fingers, body distortion, clipping, background morphing, or light flicker.
+
+Inspect the source when possible. If a required opening expression, visible background, or prop conflicts with it, prepare a matching photo first using the Photo workflow and its returned URL. Do not describe unseen source details as verified facts. An intentional wink or closed-eye opening is valid; time any reopening naturally.
+
+For a supplied storyboard or grid, treat its panels as sequential shots. Follow the user's order; otherwise read left to right, top to bottom. Map every panel to a timed shot, with actions and transitions that connect the panels into one story. Do not display the grid, borders, split screens, or a slideshow of static panels. Do not force a nine-panel structure onto a single-image request.
+
+### Voice and Performance
+
+- Include **audible spoken dialogue in the video** by default, unless the user explicitly requests silence or another audio treatment. Use the conversation's language and the established personality. Write the exact words in quotation marks, identify the speaker, and assign start/end times. Do not substitute `she says something affectionate` for a script.
+- Define each speaker's consistent voice, language/accent where established, tone, volume, pace, and emotional changes. Mark breaths, pauses, and emphasis as performance directions outside the quoted dialogue. Those directions are not spoken words.
+- Require natural lip synchronization to the assigned speaker's lines, with no exaggerated mouth movement or voice changes between shots. During a speech pause, specify a resting mouth, breath, or silent reaction. Do not combine speech with a closed-mouth smile, lip bite, or kiss at the same instant. Voiceover, if requested, is explicitly off-screen and does not drive the visible character's lips.
+- Describe how the eyes, brows, cheeks, lips, and head position change with each beat: what prompts the reaction, how it develops, and where it settles. Keep affectionate attention alive during pauses. Use direct or reflected camera-lens eye contact by default for companion clips; for a requested interaction between characters, name the intended gaze target instead. Time blinks, winks, and closed-eye moments without contradictory eye-contact claims.
+- Specify environmental sound, any action-linked effects, and whether music is present. Keep speech clear above ambience and music, with sound appropriate to the location and synchronized to visible actions. No extra voices or unscripted dialogue. Spoken lines must not become captions: no subtitles, titles, logos, watermarks, UI, or other added screen text unless requested.
+
+### Prompt Structure and Example
+
+Build the final `--prompt` in this order, filling in concrete details rather than leaving alternatives or placeholders:
+
+```text
+Duration and story: [exact runtime; opening, development, and resolved ending].
+Source and cast: [source-matched identity, appearance, starting pose/expression, hands and props].
+Scene: [specific layout, materials, objects, time/weather, light sources/direction/color, ambient motion].
+Camera and look: [aspect ratio, viewpoint/support, framing, focus, movement/cut times, visual treatment].
+Audio: [speaker IDs, language, voice and delivery; ambience, effects, music or no music; lip sync].
+Timeline: one entry per second, with any shot/panel ID:
+[start-end] Action and facial reaction: [...]. Speech: [speaker + exact words, or speech pause]. Camera/background: [...].
+[continue through the exact endpoint, including the closing reaction].
+Continuity and exclusions: [details to preserve and scene-specific unwanted artifacts].
+```
+
+Example of an original 15-second companion story, only for a matching source photo and context: she welcomes the viewer, offers the empty seat beside her, and ends pleased with the invitation. Adapt the setting, dialogue, and performance for each request.
+
+**Fixed setup:** the source shows the adult companion seated at frame left on a muted green sofa, with the source outfit, hair, accessories, and identity unchanged. Her right hand rests on her lap; her left hand starts on the cushion beside her at frame right. Behind her is a cream wall, a warm shaded floor lamp at frame right, and a closed window at frame left showing night outside. The lamp lights her left cheek from frame right, leaving a soft shadow on the opposite cheek; lighting and furniture stay fixed. The empty cushion remains visible at frame right. Use a supported phone at eye level, a stable waist-up 9:16 frame matching this example's source, natural skin texture, and mild background blur. No cuts, zooms, or background motion. Her open eyes meet the lens, with natural brief blinks. One warm conversational female voice in English, gently playful at first and softer at the end, with natural lip sync. Quiet room tone and a faint cushion rustle when touched; no music or other voices. All camera/background entries below continue this setup. Adjacent spoken fragments form one flowing sentence without an artificial pause at the second boundary.
+
+| Time | Action and facial reaction | Exact speech / speech pause | Camera / background |
+| --- | --- | --- | --- |
+| 00:00-00:01 | Notice the viewer; eyebrows lift slightly, lips form a small welcoming smile, head upright. | Speech pause; quiet inhale. | Fixed setup. |
+| 00:01-00:02 | Smile relaxes into natural speaking mouth movements; eyes stay warm on the lens. | Companion: "Hey, you." | Fixed setup. |
+| 00:02-00:03 | Tilt her head slightly to her left; cheeks lift with a playful closed-lip smile. | Speech pause. | Fixed setup. |
+| 00:03-00:04 | Begin the invitation with gently raised brows; lips articulate the line. | Companion: "I saved" | Fixed setup. |
+| 00:04-00:05 | Continue the sentence, keeping eye contact and the head tilt. | Companion: "you a spot." | Fixed setup. |
+| 00:05-00:06 | Lips close into a small grin; left hand lifts just above the empty cushion, right hand stays on lap. | Speech pause. | Fixed setup; cushion stays still. |
+| 00:06-00:07 | Pat the cushion once with the left palm, then rest it there; brows lift in invitation. | Speech pause; faint cushion rustle at contact. | Fixed setup; cushion compresses under her palm. |
+| 00:07-00:08 | Lean forward a little from the hips; mouth relaxes into speech. | Companion: "Come sit" | Fixed setup. |
+| 00:08-00:09 | Finish the invitation with a softer gaze, holding the small lean. | Companion: "with me." | Fixed setup. |
+| 00:09-00:10 | Settle upright, draw the left hand back to her lap; grin softens to a fond smile. | Speech pause; soft fabric rustle. | Fixed setup; released cushion returns to shape. |
+| 00:10-00:11 | Shoulders relax; speak more softly, eyes still on the viewer. | Companion: "This is" | Fixed setup. |
+| 00:11-00:12 | Finish with gently lifted cheeks and a sincere gaze; lips follow the words. | Companion: "better already." | Fixed setup. |
+| 00:12-00:13 | Close lips into a contented smile; breathe out softly with both hands resting. | Speech pause; quiet exhale. | Fixed setup. |
+| 00:13-00:14 | Slowly straighten her head, blink once, and return open eyes to the lens. | Speech pause. | Fixed setup. |
+| 00:14-00:15 | Hold the relaxed posture and affectionate smile with subtle natural breathing. | Speech pause; room tone continues through the ending. | Fixed setup; end on the settled expression. |
+
+### Before Running and Delivering
+
+- Confirm the timeline covers the exact runtime with no gaps or unintended overlaps, dialogue fits its slots, and the last line leaves room for the ending. Check that speech, mouth actions, gaze, hands, props, camera, and background do not conflict.
+- Confirm the prompt preserves the source and follows Companion Presence, includes explicit background directions and spoken words, and gives each beat a clear action and reaction. Send the **entire integrated prompt**, not only its motion or timeline, to the video provider.
+- Check actual provider/CLI capabilities before promising duration or audio. The current CLI has no duration or audio flags; both bundled video adapters submit `duration: 15`. A different number in the prompt alone does not override that setting. Custom runtime requires a supported generation or editing path; if unavailable, explain the limitation instead of silently delivering the wrong length.
+- Voice instructions in a prompt do not establish that a provider generates audio. Use a path that supports the required speech; a silent provider needs an available voice-generation and synchronization/composition workflow to put speech into the final video. A separate voice note does not satisfy spoken audio in the video. If using the Voice command for speech, pass only the exact dialogue, not timestamps or acting directions. Do not invent CLI flags or claim an unsupported capability; disclose a capability gap when it prevents the requested result.
+- When the result can be inspected, check actual runtime, audible speech, line completion, lip sync, continuity, and the final hold before describing it as complete. Report any limitation you could not verify.
 
 Run:
 
 ```bash
 python3 {baseDir}/scripts/clawdess.py video \
   --provider "<video provider from SOUL.md; omit flag if SOUL.md names none>" \
-  --prompt "Over 10-15 seconds, her face stays oriented toward the camera, and her open eyes meet the camera lens, with natural brief blinks. [Starting eyes: chosen expression + eyelid state and gaze where applicable; lips: action or shape + corners; head position: tilt or turn + chin height + lean or support; overall facial expression: emotion + brows and cheeks, matching the source image and request]. The mood is personal, affectionate, and non-explicit. She slowly [small head movement consistent with the starting pose], then [coordinated change in eyes, lips, and overall expression; specify the timing of any wink, eye closure, or reopening], gradually raises one free hand in a small wave below her face, and finally lowers it while holding [chosen final expression, head position, and eye state; eye contact only if eyes are open]." \
+  --prompt "<complete integrated prompt: duration, story, source, scene, camera, voice, second-by-second timeline, and continuity>" \
   --image "<photo output URL or user-provided image URL>"
 ```
 
