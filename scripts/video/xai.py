@@ -1,6 +1,6 @@
 """XAI (Grok) video provider."""
 
-from common import api_post, poll_for_url
+from common import api_post, inline_local_image, poll_for_url
 
 
 def generate(api_key, prompt, image_url):
@@ -9,7 +9,7 @@ def generate(api_key, prompt, image_url):
         "model": "grok-imagine-video",
         "prompt": prompt,
         "duration": 15,
-        "image": {"url": image_url},
+        "image": {"url": inline_local_image(image_url)},
     }
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     code, body = api_post("https://api.x.ai/v1/videos/generations", headers, payload)

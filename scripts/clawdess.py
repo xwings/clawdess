@@ -39,8 +39,15 @@ def build_parser():
     # -- video --
     p_video = sub.add_parser("video", help="Generate a video from an image")
     p_video.add_argument("--api", help="Video API key (or env CLAWDESS_VIDEO_API)")
-    p_video.add_argument("--prompt", "-p", required=True, help="Video prompt")
-    p_video.add_argument("--image", "-i", required=True, help="Source image URL")
+    p_video.add_argument(
+        "--prompt",
+        "-p",
+        required=True,
+        action="append",
+        help="Prompt for one 15-second part; repeat for a longer video "
+        "(each part continues from the previous part's last frame, then all parts are merged)",
+    )
+    p_video.add_argument("--image", "-i", required=True, help="Source image URL or local path (first frame of part 1)")
     p_video.add_argument(
         "--provider",
         "-s",

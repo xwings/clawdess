@@ -1,13 +1,16 @@
 """Shared helpers for clawdess providers."""
 
+import base64
 import importlib
 import json
+import mimetypes
 import os
 import shlex
 import shutil
 import subprocess
 import sys
 import time
+import urllib.parse
 import urllib.request
 
 
@@ -76,6 +79,21 @@ def download_file(url, dest_dir):
     dest = os.path.join(dest_dir, fname)
     urllib.request.urlretrieve(url, dest)
     return dest
+
+def local_path(ref):
+    """Return the filesystem path for a plain path or file:// URI."""
+    if ref.startswith("file://"):
+        return urllib.request.url2pathname(urllib.parse.urlparse(ref).path)
+    return os.path.expanduser(ref)
+
+def inline_local_image(image_ref):
+    """Pass http(s)/data URLs through; turn a local image into a base64 data URI."""
+    if image_ref.startswith(("http://", "https://", "data:")):
+        return image_ref
+    path = local_path(image_ref)
+    mime = mimetypes.guess_type(path)[0] or "image/png"
+    with open(path, "rb") as handle:
+        return f"data:{mime};base64,{base64.b64encode(handle.read()).decode()}"
 
 def poll_for_url(url, headers, max_attempts=300, interval=5):
     """Poll a URL until a 'url' field appears in the response."""

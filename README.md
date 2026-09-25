@@ -8,7 +8,7 @@ clawdess is more than just a girlfriend. It's the perfect digital companion. Exp
 ## Features
 
 - **Photo** — AI-edited selfies from a reference image
-- **Video** — Image-to-video generation
+- **Video** — Cinematic image-to-video scenes with dialogue; 15 seconds per part, longer videos chained and merged
 - **Voice** — Text-to-speech voice messages
 
 All media can be delivered to WhatsApp, Telegram, Discord, Slack, Signal, and MS Teams via [OpenClaw](https://github.com/openclaw/openclaw).
@@ -25,6 +25,7 @@ git clone https://github.com/xwings/clawdess ~/.openclaw/skills/clawdess
 
 - Python 3
 - [OpenClaw](https://github.com/openclaw/openclaw) agent
+- [ffmpeg](https://ffmpeg.org/) (with ffprobe) for videos longer than 15 seconds
 
 ### API Keys
 
@@ -47,11 +48,16 @@ python3 scripts/clawdess.py photo \
   --image "https://example.com/reference.png" \
   --channel discord --target "CHANNEL_ID"
 
-# Generate and send a video from an image
+# Generate a 15-second video scene from an image
 python3 scripts/clawdess.py video \
-  --prompt "smile and wave at the camera" \
-  --image "https://example.com/photo.png" \
-  --channel telegram --target "@username"
+  --prompt "Part 1 of 1, 15 seconds, one continuous scene. ..." \
+  --image "https://example.com/photo.png"
+
+# Generate a 30-second video: one --prompt per 15-second part
+python3 scripts/clawdess.py video \
+  --prompt "Part 1 of 2, 15 seconds, one continuous scene. ..." \
+  --prompt "Part 2 of 2, 15 seconds, one continuous scene. ..." \
+  --image "https://example.com/photo.png"
 
 # Generate and send a voice message
 python3 scripts/clawdess.py voice \
@@ -60,6 +66,8 @@ python3 scripts/clawdess.py voice \
 ```
 
 The `--channel` and `--target` flags are optional — omit them to generate media without sending.
+
+Each video provider call renders one 15-second part. For a longer video, pass one `--prompt` per part: every part starts from the previous part's last frame, and ffmpeg merges the parts into one MP4 in `~/.openclaw/media/clawdess/`. Zipped provider results are unpacked automatically.
 
 ## Providers
 

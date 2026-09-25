@@ -1,6 +1,6 @@
 """FAL video provider (Kling via FAL queue)."""
 
-from common import api_post, poll_for_url
+from common import api_post, inline_local_image, poll_for_url
 
 
 def generate(api_key, prompt, image_url):
@@ -8,7 +8,7 @@ def generate(api_key, prompt, image_url):
     payload = {
         "prompt": prompt,
         "duration": 15,
-        "image_url": image_url,
+        "image_url": inline_local_image(image_url),
         "video_output_type": "mp4",
         "video_quality": "high",
     }
